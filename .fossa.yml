@@ -7,7 +7,7 @@
 #
 # Usage: FOSSA_API_KEY=<> fossa analyze
 # -T <team-name> is not supported at this moment from fossa side.
-version: 2
+version: 3
 cli:
   server: https://app.fossa.com
   fetcher: custom
