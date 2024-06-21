@@ -95,34 +95,45 @@ jobs:
         run: go test ./...
 
   docker-build-push-images:
+  # This runs on statement defines a runner for the job
     runs-on: ubuntu-latest
-    
+
+    # Environment on which the this job runs
     env:
+      # Uses the ghcr.io registry in the env vaariable registry
       REGISTRY: ghcr.io
       DOCKER_REGISTRY: ghcr.io/
+      # picks up the given repository from the docker hub
       DOCKER_REPOSITORY: ios-mcn-core/
+    # Various steps that have to be taken
     steps:
+        #clone your repository's codebase down to the GitHub Actions runner where your workflow executes.
       - uses: actions/checkout@v4
-
+         # purpose is to configure the Go development environment on the runner.
       - uses: actions/setup-go@v5
         with:
+          # Version of GO
           go-version-file: 'go.mod'
-
+        # ececutes the git command and stores it in the GIT_SHA_SHORT and then prints the output 
       - run: echo GIT_SHA_SHORT=$(git rev-parse --short HEAD) >> $GITHUB_ENV
 
+        #uses this action to login with the given registry, username and pw
       - uses: docker/login-action@v3.1.0
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.GHCRUSER }}
           password: ${{ secrets.GHCRPASS }}
 
+        #name of the job 
       - name: Build and push "master-latest" Docker image
+        # has env variable named docker tag
         env:
           DOCKER_TAG: master-latest
+        #runs the following command that builds and pushes the docker ask sir(image/container??)
         run: |
           make docker-build
           make docker-push
-
+        # same as the previous step
       - name: Build and push "master-GIT_SHA" Docker image
         env:
           DOCKER_TAG: master-${{ env.GIT_SHA_SHORT }}
