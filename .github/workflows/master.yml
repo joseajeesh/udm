@@ -104,7 +104,7 @@ jobs:
       REGISTRY: ghcr.io
       DOCKER_REGISTRY: ghcr.io/
       # picks up the given repository from the docker hub
-      DOCKER_REPOSITORY: ios-mcn-core/
+      DOCKER_REPOSITORY: Trial-caze/
     # Various steps that have to be taken
     steps:
         #clone your repository's codebase down to the GitHub Actions runner where your workflow executes.
